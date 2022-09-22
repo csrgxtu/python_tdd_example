@@ -1,35 +1,48 @@
+import unittest
+
 from selenium import webdriver
 
-# browser = webdriver.Firefox()
-# download chrome driver and place it into your path https://chromedriver.storage.googleapis.com/index.html?path=105.0.5195.52/
-# in mac make chromedriver runnable by setting perm: xattr -d com.apple.quarantine path/chromedriver
-# install geckodriver: brew install geckodriver
-browser = webdriver.Chrome()
 
-# user has heard about a cool new online to-do app, she goes to checkout its homepage
-browser.get('http://localhost:8000')
+class NewVisitorTest(unittest.TestCase):
+    def setUp(self) -> None:
+        # download chrome driver and place it into your path https://chromedriver.storage.googleapis.com/index.html?path=105.0.5195.52/
+        # in mac make chromedriver runnable by setting perm: xattr -d com.apple.quarantine path/chromedriver
+        # install geckodriver: brew install geckodriver
+        self.browser = webdriver.Chrome()
+        self.browser.implicitly_wait(3)
 
-# she notices the page title and header mention to-do lists
-assert 'To-Do' in browser.title
+    def tearDown(self) -> None:
+        self.browser.implicitly_wait(3)
+        self.browser.quit()
 
-# she is invited to enter a to-do item straight away
+    def test_can_start_a_list_and_retrieve_it_later(self) -> None:
+        # user has heard about a cool new online to-do app, she goes to checkout its homepage
+        self.browser.get('http://localhost:8000')
 
-# she types "Buy peacock feathers" into a text box
+        # she notices the page title and header mention to-do lists
+        self.assertIn('To-Do', self.browser.title)
+        self.fail('Finish the test!')
 
-# when she hits enter, the page updates, and now the page lists
-# "1: Buy peacock feathers" as an item in a to-do list
+        # she is invited to enter a to-do item straight away
 
-# there is still a text box inviting her to add another item. she
-# enters "Use peaco0ck feathers to make a fly"
+        # she types "Buy peacock feathers" into a text box
 
-# the page updates again, and now shows both items on her list
+        # when she hits enter, the page updates, and now the page lists
+        # "1: Buy peacock feathers" as an item in a to-do list
 
-# she wonders whether the site will remember her list. then she sees
-# that the site has generated a unique URL for her -- there is some
-# explanatory text to that effect
+        # there is still a text box inviting her to add another item. she
+        # enters "Use peaco0ck feathers to make a fly"
 
-# she visists that url - here to-do list is still there
+        # the page updates again, and now shows both items on her list
 
-# statisfied, she goes back to sleep
+        # she wonders whether the site will remember her list. then she sees
+        # that the site has generated a unique URL for her -- there is some
+        # explanatory text to that effect
 
-browser.quit()
+        # she visists that url - here to-do list is still there
+
+        # statisfied, she goes back to sleep
+
+
+if __name__ == '__main__':
+    unittest.main(warnings='ignore')
